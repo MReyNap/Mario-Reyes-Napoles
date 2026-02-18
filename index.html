@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mario Reyes Napoles - Senior Atlassian Berater</title>
+    <title>Mario Reyes Napoles - Senior Atlassian Consultant</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
@@ -11,23 +11,64 @@
         .gradient-header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
         .card { background: white; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
         .tag { background: #f0f4ff; color: #667eea; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 500; }
+        
+        /* Language Toggle */
+        .lang-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 5px;
+            background: white;
+            padding: 5px;
+            border-radius: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            z-index: 1000;
+        }
+        .lang-btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 12px;
+            transition: all 0.3s ease;
+            background: transparent;
+            color: #666;
+        }
+        .lang-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .lang-btn:hover:not(.active) {
+            background: #f0f0f0;
+        }
+        @media print {
+            .lang-toggle { display: none; }
+        }
     </style>
 </head>
 <body class="bg-gray-50 min-h-screen">
+
+    <!-- Language Toggle -->
+    <div class="lang-toggle">
+        <button class="lang-btn active" onclick="setLang('de')" id="btn-de">🇩🇪 DE</button>
+        <button class="lang-btn" onclick="setLang('en')" id="btn-en">🇬🇧 EN</button>
+    </div>
 
     <!-- Header -->
     <header class="gradient-header text-white py-16">
         <div class="max-w-4xl mx-auto px-8">
             <div class="flex items-center gap-8">
-                <img src="data:image/jpeg;base64,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" 
+                <img src="data:image/jpeg;base64,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" 
                      alt="Mario Reyes Napoles" 
                      class="w-32 h-32 rounded-full object-cover border-4 border-white shadow-xl">
                 <div>
                     <h1 class="text-4xl font-bold mb-2">Mario Reyes Napoles</h1>
-                    <p class="text-xl text-purple-200 mb-4">Senior Atlassian Berater</p>
+                    <p class="text-xl text-purple-200 mb-4" data-de="Senior Atlassian Berater" data-en="Senior Atlassian Consultant"></p>
                     <div class="flex flex-wrap gap-4 text-sm">
-                        <span class="flex items-center gap-2">📍 Leipzig, Deutschland</span>
-                        <span class="flex items-center gap-2">📧 reyesnapoles@mail.de</span>
+                        <span class="flex items-center gap-2">📍 Leipzig, <span data-de="Deutschland" data-en="Germany"></span></span>
+                        <span class="flex items-center gap-2">📧 reyesnapoles@gmx.net</span>
                     </div>
                 </div>
             </div>
@@ -41,17 +82,9 @@
         <div class="card p-8 mb-8">
             <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
                 <span class="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center">👤</span>
-                Profil
+                <span data-de="Profil" data-en="Profile"></span>
             </h2>
-            <p class="text-gray-600 leading-relaxed text-justify">
-                Durch meine Affinität für Atlassian und durch meine langjährige Erfahrung als Atlassian 
-                Solution-Architekt konnte ich bereits an spannenden Projekten für große und 
-                mittelständige Unternehmen erfolgreich umsetzen. Als erfahrener IT-Spezialist mit 
-                Fokus auf Atlassian Cloud Produkte, konnte ich in meinen 8 Jahren an beruflichen Erfahrungen
-                in der Betreuung und Optimierung von digitalisierten Prozessen mitwirken.
-                Sie können einen erfahrenen und loyalen Mitarbeiter erwarten, der gerne bereit ist,
-                 eine verantwortungsvolle Rolle in ihrem Unternehmen einzunehmen.  
-            </p>
+            <p class="text-gray-600 leading-relaxed text-justify" data-de="Durch meine Affinität für Atlassian und durch meine langjährige Erfahrung als Atlassian Solution-Architekt konnte ich bereits an spannenden Projekten für große und mittelständige Unternehmen erfolgreich umsetzen. Als erfahrener IT-Spezialist mit Fokus auf Atlassian Cloud Produkte, konnte ich in meinen 8 Jahren an beruflichen Erfahrungen in der Betreuung und Optimierung von digitalisierten Prozessen mitwirken. Sie können einen erfahrenen und loyalen Mitarbeiter erwarten, der gerne bereit ist, eine verantwortungsvolle Rolle in ihrem Unternehmen einzunehmen." data-en="Through my affinity for Atlassian and my many years of experience as an Atlassian Solution Architect, I have successfully implemented exciting projects for large and medium-sized companies. As an experienced IT specialist with a focus on Atlassian Cloud products, I have been able to contribute to the support and optimization of digitalized processes in my 8 years of professional experience. You can expect an experienced and loyal employee who is willing to take on a responsible role in your company."></p>
         </div>
 
         <!-- Two Column Layout -->
@@ -64,7 +97,7 @@
                 <div class="card p-8">
                     <h2 class="text-xl font-bold text-gray-800 mb-6 flex items-center gap-2">
                         <span class="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center">💼</span>
-                        Berufserfahrung
+                        <span data-de="Berufserfahrung" data-en="Work Experience"></span>
                     </h2>
                     
                     <div class="space-y-6">
@@ -75,9 +108,9 @@
                             </div>
                             <p class="text-purple-600 font-medium text-sm mb-2">Adesso SE · Berlin</p>
                             <ul class="text-gray-600 text-sm space-y-1">
-                                <li>• Migration Assessment DC zur Cloud</li>
-                                <li>• Angebotserstellung + Projektmanagement</li>
-                                <li>• Consulting Atlassian Anwendungen</li>
+                                <li data-de="• Migration Assessment DC zur Cloud" data-en="• Migration Assessment DC to Cloud"></li>
+                                <li data-de="• Angebotserstellung + Projektmanagement" data-en="• Proposal Creation + Project Management"></li>
+                                <li data-de="• Consulting Atlassian Anwendungen" data-en="• Consulting Atlassian Applications"></li>
                             </ul>
                         </div>
 
@@ -88,9 +121,9 @@
                             </div>
                             <p class="text-purple-600 font-medium text-sm mb-2">SENEC GmbH · Leipzig</p>
                             <ul class="text-gray-600 text-sm space-y-1">
-                                <li>• Verantwortung Atlassian Suite</li>
-                                <li>• Weiterentwicklung von Prozessen & Automatisierungen</li>
-                                <li>• Teamlead von 9 Mitarbeitern (extern + intern)</li>
+                                <li data-de="• Verantwortung Atlassian Suite" data-en="• Responsibility for Atlassian Suite"></li>
+                                <li data-de="• Weiterentwicklung von Prozessen & Automatisierungen" data-en="• Development of processes & automations"></li>
+                                <li data-de="• Teamlead von 9 Mitarbeitern (extern + intern)" data-en="• Team lead of 9 employees (external + internal)"></li>
                             </ul>
                         </div>
 
@@ -101,8 +134,8 @@
                             </div>
                             <p class="text-purple-600 font-medium text-sm mb-2">Xalt GmbH · Leipzig</p>
                             <ul class="text-gray-600 text-sm space-y-1">
-                                <li>• Workshops Consulting Atlassian Anwendungen</li>
-                                <li>• IT Service Management ITIL</li>
+                                <li data-de="• Workshops Consulting Atlassian Anwendungen" data-en="• Workshops Consulting Atlassian Applications"></li>
+                                <li data-de="• IT Service Management ITIL" data-en="• IT Service Management ITIL"></li>
                                 <li>• Jira Sync</li>
                             </ul>
                         </div>
@@ -114,8 +147,8 @@
                             </div>
                             <p class="text-purple-600 font-medium text-sm mb-2">GISA GmbH · Halle (Saale)</p>
                             <ul class="text-gray-600 text-sm space-y-1">
-                                <li>• Atlassian Schulungen</li>
-                                <li>• Consulting SAP Anwendungen</li>
+                                <li data-de="• Atlassian Schulungen" data-en="• Atlassian Training"></li>
+                                <li data-de="• Consulting SAP Anwendungen" data-en="• Consulting SAP Applications"></li>
                                 <li>• Product Owner</li>
                                 <li>• IT Service Management – ITIL</li>
                             </ul>
@@ -128,8 +161,8 @@
                             </div>
                             <p class="text-purple-600 font-medium text-sm mb-2">Bcond GmbH · Leipzig</p>
                             <ul class="text-gray-600 text-sm space-y-1">
-                                <li>• Consulting von Bestands-/Neukunden</li>
-                                <li>• Konzeption von Workshops</li>
+                                <li data-de="• Consulting von Bestands-/Neukunden" data-en="• Consulting of existing/new customers"></li>
+                                <li data-de="• Konzeption von Workshops" data-en="• Workshop conception"></li>
                             </ul>
                         </div>
                     </div>
@@ -139,23 +172,23 @@
                 <div class="card p-8">
                     <h2 class="text-xl font-bold text-gray-800 mb-6 flex items-center gap-2">
                         <span class="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center">🎓</span>
-                        Ausbildung
+                        <span data-de="Ausbildung" data-en="Education"></span>
                     </h2>
                     
                     <div class="space-y-4">
                         <div class="flex justify-between items-start">
                             <div>
-                                <h3 class="font-bold text-gray-800">Medieninformatik – M.Sc.</h3>
+                                <h3 class="font-bold text-gray-800" data-de="Medieninformatik – M.Sc." data-en="Media Informatics – M.Sc."></h3>
                                 <p class="text-purple-600 text-sm">HTWK Leipzig</p>
-                                <p class="text-gray-500 text-xs mt-1">Betriebliche Informationssysteme, Kryptologie, Semantic Web</p>
+                                <p class="text-gray-500 text-xs mt-1" data-de="Betriebliche Informationssysteme, Kryptologie, Semantic Web" data-en="Enterprise Information Systems, Cryptology, Semantic Web"></p>
                             </div>
                             <span class="text-gray-500 text-sm">2014 – 2017</span>
                         </div>
                         <div class="flex justify-between items-start">
                             <div>
-                                <h3 class="font-bold text-gray-800">Angewandte Medienwissenschaft – B.A.</h3>
+                                <h3 class="font-bold text-gray-800" data-de="Angewandte Medienwissenschaft – B.A." data-en="Applied Media Science – B.A."></h3>
                                 <p class="text-purple-600 text-sm">TU Ilmenau</p>
-                                <p class="text-gray-500 text-xs mt-1">Public Relation, Medienmanagement, Digital Media</p>
+                                <p class="text-gray-500 text-xs mt-1" data-de="Public Relation, Medienmanagement, Digital Media" data-en="Public Relations, Media Management, Digital Media"></p>
                             </div>
                             <span class="text-gray-500 text-sm">2007 – 2012</span>
                         </div>
@@ -186,12 +219,12 @@
 
                 <!-- Languages -->
                 <div class="card p-6">
-                    <h2 class="text-lg font-bold text-gray-800 mb-4">Sprachen</h2>
+                    <h2 class="text-lg font-bold text-gray-800 mb-4" data-de="Sprachen" data-en="Languages"></h2>
                     <div class="space-y-3">
                         <div>
                             <div class="flex justify-between text-sm mb-1">
-                                <span class="text-gray-700">Deutsch</span>
-                                <span class="text-gray-500">Muttersprache</span>
+                                <span class="text-gray-700" data-de="Deutsch" data-en="German"></span>
+                                <span class="text-gray-500" data-de="Muttersprache" data-en="Native"></span>
                             </div>
                             <div class="h-2 bg-gray-100 rounded-full">
                                 <div class="h-full bg-purple-500 rounded-full" style="width: 100%"></div>
@@ -199,8 +232,8 @@
                         </div>
                         <div>
                             <div class="flex justify-between text-sm mb-1">
-                                <span class="text-gray-700">Englisch</span>
-                                <span class="text-gray-500">Verhandlungssicher</span>
+                                <span class="text-gray-700" data-de="Englisch" data-en="English"></span>
+                                <span class="text-gray-500" data-de="Verhandlungssicher" data-en="Business fluent"></span>
                             </div>
                             <div class="h-2 bg-gray-100 rounded-full">
                                 <div class="h-full bg-purple-500 rounded-full" style="width: 85%"></div>
@@ -211,13 +244,13 @@
 
                 <!-- Sport -->
                 <div class="card p-6 bg-gradient-to-br from-orange-500 to-red-500 text-white">
-                    <h2 class="text-lg font-bold mb-4">🏀 Leistungssport</h2>
+                    <h2 class="text-lg font-bold mb-4" data-de="🏀 Leistungssport" data-en="🏀 Competitive Sports"></h2>
                     <p class="font-bold">Basketball</p>
                     <p class="text-orange-100 text-sm mb-3">1998 – 2011</p>
                     <ul class="text-sm text-orange-100 space-y-1">
-                        <li>• 2. Bundesliga (Erdgas Basket Jena)</li>
-                        <li>• Regionalliga (TuS Jena)</li>
-                        <li>• Regionalliga (BIG Gotha)</li>
+                        <li data-de="• 2. Bundesliga (Erdgas Basket Jena)" data-en="• 2nd German League (Erdgas Basket Jena)"></li>
+                        <li data-de="• Regionalliga (TuS Jena)" data-en="• Regional League (TuS Jena)"></li>
+                        <li data-de="• Regionalliga (BIG Gotha)" data-en="• Regional League (BIG Gotha)"></li>
                     </ul>
                 </div>
             </div>
@@ -229,5 +262,33 @@
         © 2026 Mario Reyes Napoles
     </footer>
 
+    <script>
+        let currentLang = 'de';
+        
+        function setLang(lang) {
+            currentLang = lang;
+            
+            // Update buttons
+            document.getElementById('btn-de').classList.toggle('active', lang === 'de');
+            document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+            
+            // Update all elements with data-de and data-en attributes
+            document.querySelectorAll('[data-de][data-en]').forEach(el => {
+                el.textContent = el.getAttribute('data-' + lang);
+            });
+            
+            // Update HTML lang attribute
+            document.documentElement.lang = lang;
+            
+            // Save preference
+            localStorage.setItem('cv-lang', lang);
+        }
+        
+        // Load saved preference on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedLang = localStorage.getItem('cv-lang') || 'de';
+            setLang(savedLang);
+        });
+    </script>
 </body>
 </html>
